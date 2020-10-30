@@ -1,0 +1,54 @@
+-- Welcome to Lambda Light 
+
+-- This is a language meant to emulate the Lambda Calculus originally created by Alonzo Church.
+-- This File contains an number of definitions that make it easier to bootstrap functions that might be useful to have.
+-- Code Repository on GitHub: https://github.com/AngelAlvie/LambdaLight. Enjoy.
+
+-- Combinators
+
+I := \x.x
+Y := \f.(\x.f(x x))(\x.f(x x))
+
+-- Booleans
+true := \a.\b.a
+false := \a.\b.b
+
+not := \b. b false true
+and := \b1.\b2.b1 b2 false
+or  := \b1.\b2.b1 true b2
+
+-- Lists & Pairs
+cons := \a.\b.\f.f a b
+car  := \p. p (\a.\b.a)
+cdr  := \p. p (\a.\b.b)
+nil  := \x.true
+null? := \l.l (\a.\b.false) 
+
+map := Y (\map.\f.\l.(null? l) (nil) (cons (f (car l)) (map f (cdr l))))
+
+-- Math
+
+-- Church Numerals Native to Language
+
+-- Operators
+succ := \n.\f.\x.f (n f x)
+pred := \n.\f.\x.n (\g.\h.h (g f)) (\u.x) I
++  := \n.\m. (n succ) m
+-  := \n.\m. (m pred) n
+*  := \n.\m. n (+ m) 0
+^  := \n.\m. m (* n) 1
+
+-- Comparison
+isZero := \n.n (\x.false) true
+<=  := \n.\m.isZero (- n m)
+>=  := \n.\m.isZero (- m n)
+==  := \n.\m.and (>= n m) (<= n m)
+<   := \n.\m.not (>= n m)
+>   := \n.\m.not (<= n m)
+
+-- Misc
+
+I := \x.x
+Y := \f.(\x.f(x x))(\x.f(x x))
+
+factorial := Y (\f.\n. (isZero n) 1 (* n (f (pred n))))
