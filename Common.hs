@@ -17,7 +17,7 @@ module Common (
 
 import Data.Map.Strict as M
 
-data Token = LParen | RParen | Word String | Number String | Tambah | Kali | Lambda | Dot | Def | End deriving (Read, Show, Eq)
+data Token = LParen | RParen | Word String | Number Char | Tambah | Kali | Lambda | Dot | Def | End deriving (Read, Show, Eq)
 
 -- we will define 3 semantic constructs: a 'Var'iable, 'Abs'traction, and 'App'lication.
 -- we will define 'Bind'ings, which modify the execution environment.

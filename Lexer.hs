@@ -4,6 +4,7 @@ module Lexer (
 ) where 
 
 import Common
+import Data.Char
 
 tokenize :: String ->  [Token]
 tokenize "" = []
