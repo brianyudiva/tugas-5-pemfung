@@ -5,6 +5,7 @@ module Parser (
 import Syntax
 import Text.ParserCombinators.Parsec
 import Data.Char
+import Data.List
 
 
 type LambdaParser = GenParser Char () LExpr
@@ -50,9 +51,9 @@ parseExpr input
 toChurch :: String -> String
 toChurch [] = ""
 toChurch (x:xs)
+    | length xs > 1 && xs !! 0 == '*' = "(λxyz.x(yz))" ++ toChurchNumeral x ++ toChurch xs
     | x `elem` ['0'..'9'] = toChurchNumeral x ++ toChurch xs
     | x == '+' = "(λwyx.y(wyx))" ++ toChurch xs
-    | x == '*' = "(λwyx.w(yx))" ++ toChurch xs
     | otherwise = toChurch xs
 
 toChurchNumeral :: Char -> String
