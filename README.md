@@ -72,31 +72,44 @@ Untuk menjalankan program
 ```bash
 cabal run
 ```
-Berikut input yang ditambah setelah dimodifikasi
+Berikut input yang bisa digunakan setelah dimodifikasi
 
 **Bilangan cacah**
 
+Memasukkan bilangan bulat (0-9) untuk mendapatkan Church Numeral
+
 ```bash
-cukup memasukan bilangan cacah yang diinginkan antara 0-9
+λ>1 
+λsz.sz
+1
 ```
 
 **Pertambahan bilangan cacah**
-
+Memasukkan operasi (+) diantara bilangan bulat (0-9) untuk mendapatkan hasil dalam bentuk Church Numeral dan bilangan bulat
 ```bash
-menggunakan operator + diantara 2 bilangan cacah (bilangan cacah 0-9)
-
-1+2
+λ>1+1
+→((λsz.sz)(λwyx.y ((wy)x)))(\sz.sz)
+→(λz.(λwyx.y ((wy)x))z)(λsz.sz)
+→\yx.y (((λsz.sz)y)x)
+→\yx.y ((λz.yz)x)
+λyx.y (yx)
+2
 ```
 
 **Perkalian bilangan cacah**
-
+Memasukkan operasi (*) diantara bilangan bulat (0-9) untuk mendapatkan hasil dalam bentuk Church Numeral dan bilangan bulat
 ```bash
-menggunakan operator * didepan 2 bilangan cacah (bilangan cacah 0-9)
-
-1*2
+λ>1*2
+→((λwyx.w (yx))(λsz.sz))(\sz.s (sz))
+→(λyx.(λsz.sz)(yx))(λsz.s (sz))
+→\x.(λsz.sz)((λsz.s (sz))x)
+→\xz.((λsz.s (sz))x)z
+→\xz.(λz.x (xz))z
+λxz.x (xz)
+2
 ```
 
 ## Known Bugs
 
-* Ketika input operasi (+) dan (*) digabung **berurutan**, contohnya **1+2*3**, hasil yang diberikan tidak sesuai
+* Ketika input operasi adalah x+x*x, hasil yang diberikan tidak sesuai, ini mungkin kesalahan dari source code
 
