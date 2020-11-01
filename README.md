@@ -17,7 +17,7 @@ parseExpr input
     | otherwise = parse lambdaExpr "" input
 ```
 
-Fungsi **toChurch** akan merubah bilangang bulat, operasi (+), dan operasi (*) menjadi representasi Lambda dengan bantuan fungsi **toChurchNumeral** untuk melakukan Church Numeral secara rekursif
+Fungsi **toChurch** akan merubah bilangang bulat, operasi (+), dan operasi (*) menjadi representasi Lambda dengan bantuan fungsi **toChurchNumeral** untuk melakukan Church Numeral secara rekursif.
 
 ```bash
 toChurch :: String -> String
@@ -37,25 +37,9 @@ toChurchNumeral x
         addLowerFunction 1 = "s(z)"
         addLowerFunction x = "s(" ++ addLowerFunction(x-1) ++ ")"
 ```
+Setelah di parse, maka program akan menjalankan evaluasi seperti biasa.
 
-Pada file yang sama setelah melakukan pengecekan pada input saya juga menambahkan sebuah fungsi bernama **checkChurch** untuk melakukan pengubahan terhadap bilangan cacah (1,2,...,9) menjadi ekspresi lambda.
-
-```bash
-checkChurch :: Char -> String
-checkChurch num 
-    | num == '0' = "(λsz.z)"
-    | otherwise = "(λsz."++ toNumerals (digitToInt num)++")"
-```
-
-Lalu saya juga menambahkan fungsi bernama **toNumerals** yang digunakan sebagai fungsi rekursif untuk membantu fungsi **checkChurch** menjadi ekspresi lambda
-
-```bash
-toNumerals :: Int -> String
-toNumerals 1 = "s(z)"
-toNumerals num = "s("++toNumerals (num-1)++")"
-```
-
-Setelah selesai evaluasi, maka fungsi **churchToNumeral** di dalam **Main.hs** akan merubah representasi lambda ke dalam bilangan bulat
+Selesai evaluasi, maka fungsi **churchToNumeral** di dalam **Main.hs** akan merubah representasi lambda ke dalam bilangan bulat
 
 ```bash
 churchToNumeral :: String -> String
