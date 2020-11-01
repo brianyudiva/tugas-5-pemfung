@@ -50,8 +50,15 @@ parseExpr input
 toChurch :: String -> String
 toChurch [] = ""
 toChurch (x:xs)
-    | x `elem` ['0'..'9'] = "(λsz.z)" ++ toChurch xs
+    | x `elem` ['0'..'9'] = toChurchNumeral x ++ toChurch xs
     | x == '+' = "(λwyx.y(wyx))" ++ toChurch xs
     | x == '*' = "(λwyx.w(yx))" ++ toChurch xs
     | otherwise = toChurch xs
 
+toChurchNumeral :: Char -> String
+toChurchNumeral x
+    | x == '0' = "(λsz.z)"
+    | otherwise = "(λsz." ++ addLowerFunction(digitToInt x) ++ ")"
+    where
+        addLowerFunction 1 = "s(z)"
+        addLowerFunction x = "s(" ++ addLowerFunction(x-1) ++ ")"
