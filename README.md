@@ -1,67 +1,52 @@
-# mu
+Lambda Calculus REPL:
+====================
 
-Simple untyped (and soon simply typed) lambda calculus interpreter written in Haskell.
+A simple REPL for lambda calculus.
 
-Features:
-* Bound and free variables
-* Abstractions (functions)
-* Function application
-* Aliases to name expressions so they don't have to be typed out over and over again
-* "Evaluation" through alpha conversion and beta reduction
 
-## Grammar
-```
-input       ::= expr (";" expr)*
-expr        ::= alias | application
-alias       ::= ALIASIDENT ":=" application
-application ::= (term)* | "(" application ")"
-term        ::= variable | abstraction
-variable    ::= VARIDENT | ALIASIDENT
-abstraction ::= ("\" | "λ") VARIDENT "." application
+## Screencast
 
-VARIDENT    ::= _any single lowercase letter_
-ALIASIDENT  ::= _any series of alpha numeric characters_
-```
+![Screencapture GIF](screencast.gif)
 
-Whitespace after any token is ignored.
-Comments can be started with `--`.
 
-## Examples
+## Run
 
-```
-> ID := \x.x -- The identity function.
-\x.x
-> ID a
-a
-> AND := \p.\q.p q p -- Boolean and.
-\p.\q.p q p
-> TRUE := \x.\y.x -- Boolean true.
-\x.\y.x
-> FALSE := \x.\y.y -- Boolean false.
-\x.\y.y
-> AND TRUE FALSE ; AND TRUE TRUE
-\x.\y.y ; \x.\y.x
-```
+To run the REPL, just type in:
 
-## Building & Running
+    cabal run
 
-The project can be easily built using Cabal (install via `ghcup` on Linux):
-```
-$ cabal build
-```
-and can also be run using
-```
-$ cabal run
-```
 
-This will launch a REPL in which Lambda Calculus expressions can be typed and evaluated.
+## Examples:
 
-The program REPL can be installed by using
-```
-$ cabal install
-```
-This way it can be executed from anywhere by just invoking the `mu` command. 
+To switch normal order reduction strategy
+:n
+(λx.xx)((λxy.yx)y)
+→(λx.xx)((λxy.yx)y)
+→((λxy.yx)y)((λxy.yx)y)
+→(λa.ay)((λxy.yx)y)
+→((λxy.yx)y)y
+→(λa.ay)y
+yy
 
-## License
+:a
+(λx.xx)((λxy.yx)y)
+→(\x.xx)((λxy.yx)y)
+→(λx.xx)(λa.ay)
+yy
 
-Licensed under the [MIT License](./LICENSE).
+-- Alpha Equivalence
+:eq (\x.xx) (\y.yy)
+:eq (\xy.xy) (\yx.yx)
+:eq (\xy.xy) (\yx.yy)
+
+
+-- Convert to Debruijn Index
+:d (\xysz.xs(ysz))
+:d (\x.x(\y.xx))
+
+-- Explain
+(λx.(λy.xy))y (\x.xx)
+
+
+TODO
+:eq y x not equal
