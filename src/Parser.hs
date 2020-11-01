@@ -1,7 +1,10 @@
-module Parser (parseExpr) where
+module Parser (
+    parseExpr
+    ) where
 
 import Syntax
 import Text.ParserCombinators.Parsec
+import Data.Char
 
 
 type LambdaParser = GenParser Char () LExpr
@@ -40,4 +43,15 @@ lambdaExpr  = do
                   return $ foldl1 App terms
 
 parseExpr :: String -> Either ParseError LExpr
-parseExpr = parse lambdaExpr ""
+parseExpr input
+    | head input `elem` ['0'..'9'] = parse lambdaExpr "" (toChurch input)
+    | otherwise = parse lambdaExpr "" input
+
+toChurch :: String -> String
+toChurch [] = ""
+toChurch (x:xs)
+    | x `elem` ['0'..'9'] = "(λsz.z)" ++ toChurch xs
+    | x == '+' = "(λwyx.y(wyx))" ++ toChurch xs
+    | x == '*' = "(λwyx.w(yx))" ++ toChurch xs
+    | otherwise = toChurch xs
+
