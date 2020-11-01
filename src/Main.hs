@@ -35,6 +35,12 @@ debruijnIndex expr = case parseExpr expr of
                     Left err -> show "Parse Error! ¯\\_(ツ)_/¯"
                     Right e  -> show $ debruijn e
 
+churchToNumeral :: String -> String
+churchToNumeral x
+  | x == "λsz.z" = show 0
+  | x == "λxz.z" = show 0
+  | otherwise = show $ (length $ filter (=='(') x) + 1
+
 main =  runStateT (runInputT defaultSettings loop) "normal"
 
 check ma b fb = maybe b fb ma
@@ -51,6 +57,6 @@ loop = do
        (":d":e:_)        -> do outputStrLn $ debruijnIndex e; loop
        (":eq":e1:e2:_) -> do outputStrLn $ alphaEq e1 e2; loop
        ("get":_)       -> do v <- lift get; outputStrLn $ "The reduction strategy is " ++ show v; loop
-       [expr]          -> do s <- lift get; outputStrLn (evaluate expr s); loop
+       [expr]          -> do s <- lift get; outputStrLn (evaluate expr s); outputStrLn (churchToNumeral $ last $ splitOn "\n" $ evaluate expr s); loop
        (e1:e2:_)       -> do outputStrLn (explainExpr e1 e2); loop
        _               -> do outputStrLn "huh?"; loop

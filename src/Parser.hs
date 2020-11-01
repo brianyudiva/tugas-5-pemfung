@@ -51,7 +51,7 @@ parseExpr input
 toChurch :: String -> String
 toChurch [] = ""
 toChurch (x:xs)
-    | length xs > 1 && xs !! 0 == '*' = "(λxyz.x(yz))" ++ toChurchNumeral x ++ toChurch xs
+    | length xs > 1 && xs !! 0 == '*' = "(λwyx.w(yx))" ++ toChurchNumeral x ++ toChurch xs
     | x `elem` ['0'..'9'] = toChurchNumeral x ++ toChurch xs
     | x == '+' = "(λwyx.y(wyx))" ++ toChurch xs
     | otherwise = toChurch xs
