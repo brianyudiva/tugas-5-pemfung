@@ -85,7 +85,9 @@ Memasukkan bilangan bulat (0-9) untuk mendapatkan Church Numeral
 ```
 
 **Pertambahan bilangan cacah**
+
 Memasukkan operasi (+) diantara bilangan bulat (0-9) untuk mendapatkan hasil dalam bentuk Church Numeral dan bilangan bulat
+
 ```bash
 λ>1+1
 →((λsz.sz)(λwyx.y ((wy)x)))(\sz.sz)
@@ -97,7 +99,9 @@ Memasukkan operasi (+) diantara bilangan bulat (0-9) untuk mendapatkan hasil dal
 ```
 
 **Perkalian bilangan cacah**
+
 Memasukkan operasi (*) diantara bilangan bulat (0-9) untuk mendapatkan hasil dalam bentuk Church Numeral dan bilangan bulat
+
 ```bash
 λ>1*2
 →((λwyx.w (yx))(λsz.sz))(\sz.s (sz))
